@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
 from rest_framework import exceptions
-from .models import User
+from .models import *
 
 class CreateUserSerializer(serializers.ModelSerializer):
     password = serializers.CharField(write_only=True)
@@ -38,3 +38,10 @@ class LoginUserSerializer(serializers.ModelSerializer):
                 raise exceptions.ValidationError('Username or Password Invalid')
         else:
             raise exceptions.ValidationError('All Fields Required***')
+
+class UserBlogSerializer(serializers.ModelSerializer):
+    user = CreateUserSerializer()
+
+    class Meta:
+        model = BlogPageContent
+        fields = ('id', 'user', 'title', 'content', 'postDate')
